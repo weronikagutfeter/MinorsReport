@@ -43,4 +43,4 @@ Dataset contains **20** clips (`0000`–`0019`) and  **1000** frames (first ~10 
 
 ## Download
 
-Dataset can be downloaded from [Kaggle](https://xxxx).
+Dataset can be downloaded from [Zenodo](https://zenodo.org/records/22092731) and [Kaggle](https://xxxx).
