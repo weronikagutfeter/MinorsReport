@@ -11,7 +11,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-navy" alt="Python">
-  <img src="https://img.shields.io/badge/License-MIT-red" alt="License">
   <img src="https://img.shields.io/badge/Status-Work%20in%20Progress-lightgrey" alt="Status">
 </p>
 
@@ -31,14 +30,10 @@ Functionality
 
 ## Experiments
 
-### LLM-in-the-loop
+### MLLMs for children detection
 
-Test of LLMs in the task of child detection vs. classic neural-network detectors.
+Test of multimedia large language models MLLMs in the task of child detection vs. classical neural-networks-based detectors.
 
 
 ---
-
-## License
-
-This project is licensed under the MIT License.
 
