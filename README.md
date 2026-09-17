@@ -30,7 +30,7 @@ Functionality
 
 ## Experiments
 
-### MLLMs for children detection
+### [Classical Object Detectors vs. MLLMs for Child Detection in Images: A Preliminary Study](experiments/llms_and_detectors/README.md)
 
 Test of multimedia large language models MLLMs in the task of child detection vs. classical neural-networks-based detectors.
 

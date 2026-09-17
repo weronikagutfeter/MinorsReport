@@ -77,25 +77,15 @@ def process_filename(engine, filename, outputdir=None, raw_results=0, processed_
 
     return raw_results,processed_results
 
-if __name__ == '__main__':
-
-    outputdir = os.environ.get('OUTPUTDIR', '')
-    imagesdir = os.environ.get('IMAGESDIR', '')
-    modelsdir = os.environ.get('MODELSDIR', '')
+def run_detection(imagesdir, outputdir, weights):
 
 
-    # modelname= 'yolo26x.pt'
-    # modelname = 'yolo11x.pt'
-    # modelname ='yolov3u.pt'
-    modelname = 'yoloe-26x-seg.pt'
-    # modelname = 'yolov8x-world.pt'
-
-
-    weights = os.path.join(modelsdir,modelname)
     engine = YoloDetector(weights)
+
 
     root_inputdir = Path(imagesdir)
     root_outputdir = Path(outputdir,engine.get_name())
+
 
     raw_results = 0
     processed_results = 0
@@ -104,12 +94,14 @@ if __name__ == '__main__':
     for filename in root_inputdir.rglob('*'):
         if filename.is_file() and filename.suffix.lower() in IMAGE_SUFFIXES:
             relpath = os.path.split(os.path.relpath(filename, root_inputdir))[-2]
-            suboutputdir = os.path.join(root_outputdir,relpath)
+            suboutputdir = os.path.join(root_outputdir, relpath)
             if not os.path.exists(suboutputdir):
                 os.makedirs(suboutputdir)
 
             t0 = time.perf_counter()
-            raw_results,processed_results = process_filename(engine,str(filename), outputdir=suboutputdir, raw_results=raw_results, processed_results=processed_results)
+            raw_results, processed_results = process_filename(engine, str(filename), outputdir=suboutputdir,
+                                                              raw_results=raw_results,
+                                                              processed_results=processed_results)
             process_filename_total_s += (time.perf_counter() - t0)
             process_filename_calls += 1
 
@@ -119,6 +111,27 @@ if __name__ == '__main__':
     summary_path = os.path.join(root_outputdir, "summary.txt")
     with open(summary_path, "w", encoding="utf-8") as outf:
         outf.write(summary + "\n")
+
+
+if __name__ == '__main__':
+
+    outputdir = os.environ.get('OUTPUTDIR', '')
+    imagesdir = os.environ.get('IMAGESDIR', '')
+    modelsdir = os.environ.get('MODELSDIR', '')
+
+
+    modelname= 'yolo26x.pt'
+    # modelname = 'yolo11x.pt'
+    # modelname ='yolov3u.pt'
+    # modelname = 'yoloe-26x-seg.pt'
+    # modelname = 'yolov8x-world.pt'
+
+
+    weights = os.path.join(modelsdir,modelname)
+
+
+
+    run_detection(imagesdir, weights, outputdir)
 
 
 
