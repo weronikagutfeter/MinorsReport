@@ -1,18 +1,18 @@
 # Classical Object Detectors vs. MLLMs for Child Detection in Images
 
 ## The task
-The main goal of this experiment is to identify all children appearing in the images from the Parenting Slop Dataset. 
-A key assumption is to minimize or eliminate the need for additional data collection and do not use cloud-based infrastructure.
-All modeles considered in the comparison are open-source and open-weighted.
+The main goal of this experiment is to identify all children appearing in the images from the [Parenting Slop Dataset](../../data/parenting_slop_dataset/README.md). (Links and broader description of data can be found in **data/parenting_slop_dataset** directory). 
+A key assumption is to minimize or eliminate the need for additional data collection for training and do not use cloud-based infrastructure.
+Therefore, all models considered in the comparison are open-source and open-weighted.
 
 ## Methodology
-The following no-train approaches are explored:
+The following no-finetune approaches are explored:
 
 1. **Classical person detector + age estimation:** A conventional object detector is first used to identify all people in the image. An age estimation model is then applied to the detected regions to distinguish children from adults and filter out the latter.
 1. **MLLM-based child localization:** An MLLM is prompted to identify and localize all children visible in the image, providing a direct end-to-end approach to child detection.
 1. **Hybrid solutions** Combining the power of the classic detectors and MLLMs
 
-## Workflow 1: Person detector + age estimation
+## Workflow 1: Classical person detector + age estimation
 
 | Step | Script | Role |
 |------|--------|------|
