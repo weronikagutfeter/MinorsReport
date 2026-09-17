@@ -36,8 +36,17 @@ See [Running custom LLMs with llama.cpp](llama_helper.md) to start a local visio
 
 ## Results
 
-| Approach | Details | AP | AP@0.5 | AP@0.75 | AR | Prec. | Rec. | 
-|----------|---------|----|--------|--------|----|-------|------|
-| Detector + Age estimation with classification model | YOLO26x + MiVOLO |  0.428 | 0.500 | 0.451 | 0.454 | 0.401 | 0.511 |
-| End-to-end MLLM | Qwen3.6-35B-A3B  | 0.613 | 0.824 | 0.694 |0.744 | 0.899 | 0.891 |
-| Detector + Age estimation with MLLM | YOLO26x + Qwen3.6-27B | 0.679 | 0.814 | 0.739 | 0.735 | 0.660 | 0.842 |
+The detection results were evaluated using the standard COCO detection metrics: AP (Mean Average Precision), AP@0.5 (Average Precision at IoU=0.50, AP@0.75 (Average Precision at IoU=0.75 and AR (Average Recall with a maximum of 100 detections per image).
+
+
+| Approach                                            | Details                     | AP | AP@0.5    | AP@0.75 | AR | 
+|-----------------------------------------------------|-----------------------------|----|-----------|-----|----|
+| Baseline person detector                            | YOLO26x + no age estimation | 0.546| 0.672     |0.599|**0.772**|
+| Detector + Age estimation with classification model | YOLO26x + InsightFace       | 0.223| 0.263     |0.245|0.302|
+| Detector + Age estimation with classification model | YOLO26x + MiVOLO            | 0.428| 0.500     |0.451|0.454|
+| End-to-end MLLM                                     | Qwen3.5-4B                  | 0.401| 0.726     |0.399|0.533|
+| End-to-end MLLM                                     | Qwen3.6-27B                 |0.498| 0.645     |0.570|0.559|
+| End-to-end MLLM                                     | Qwen3.6-35B-A3B             | 0.619| **0.828** |0.705|0.756|
+| Detector + Age estimation with MLLM                 | YOLO26x + Qwen3.5-4B        | 0.675| 0.809     |0.734|0.752|
+| Detector + Age estimation with MLLM                 | YOLO26x + Qwen3.6-27B       |**0.682**| 0.810     | **0.743** | 0.734     |
+| Detector + Age estimation with MLLM                 | YOLO26x + Qwen3.6-35B-A3B   | 0.593| 0.701     |0.638|0.628|
