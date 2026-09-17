@@ -18,9 +18,9 @@
 
 ## Overview
 
-**Minors Report** is a pure research project designed to analyze various technologies helping identify children in multimedia.
+**Minors Report** is a pure research project designed to analyze various technologies helping identify analyze children's presence in multimedia.
 
-Functionality
+Functionalities that are planned to be devoloped:
 
 * minors detection in images and videos
 * age estimation
@@ -32,7 +32,7 @@ Functionality
 
 ### [Classical Object Detectors vs. MLLMs for Child Detection in Images: A Preliminary Study](experiments/llms_and_detectors/README.md)
 
-Test of multimedia large language models MLLMs in the task of child detection vs. classical neural-networks-based detectors.
+Comparing classical object detectors (e.g. YOLO) with multimedia large language models (MLLMs) in the task of child detection. [[read more...](experiments/llms_and_detectors/README.md)]
 
 
 ---
