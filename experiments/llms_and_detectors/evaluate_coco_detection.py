@@ -19,7 +19,9 @@ except ImportError as exc:
 def image_rel_key(file_name: str) -> str:
     """``.../frames/0015/frame000000.jpg`` -> ``0015/frame000000.jpg``."""
     path = Path(file_name)
-    return f"{path.parent.name}/{path.name}"
+    rel_path = Path('/'.join(path.parts[1:]))
+    return str(rel_path)
+    # return f"{path.parent.name}/{path.name}"
 
 
 def build_gt_lookups(coco: COCO) -> tuple[dict[str, int], dict[int, tuple[int, int]]]:
@@ -38,7 +40,7 @@ def get_bboxes_for_image(coco: COCO, image_file_name: str) -> list[list[float]]:
     key; images are matched via ``image_rel_key``. Returns an empty list if the
     image is not found.
     """
-    target_key = image_rel_key(image_file_name)
+    target_key = image_file_name#image_rel_key(image_file_name)
     image_id = next(
         (
             img_id
@@ -119,9 +121,10 @@ def score_from_detection(det: dict) -> float:
     return 1.0
 
 
-def prediction_path_to_image_key(pred_path: Path, suffix: str) -> str:
+def prediction_path_to_image_key(pred_path: Path, predictions_dir: Path, suffix: str) -> str:
     stem = pred_path.name[: -len(suffix)] if pred_path.name.endswith(suffix) else pred_path.stem
-    return f"{pred_path.parent.name}/{stem}.jpg"
+    rel = Path(pred_path).relative_to(predictions_dir).with_name(stem)
+    return f"{rel}.jpg"#f"{rel.name}/{stem}.jpg"
 
 
 def load_predictions(
@@ -148,7 +151,7 @@ def load_predictions(
         if not pred_path.is_file():
             continue
         stats["files_seen"] += 1
-        image_key = prediction_path_to_image_key(pred_path, suffix)
+        image_key = prediction_path_to_image_key(pred_path, predictions_dir, suffix)
         image_id = rel_to_image_id.get(image_key)
         if image_id is None:
             stats["files_no_gt"] += 1
@@ -408,7 +411,7 @@ if __name__ == "__main__":
     # ground-truth labels are in COCO format, coordinates are in xywh format, they have one category "minors" with id=0
     # detection results for classic detectors are written one-file-per-image, they have category "person" and files with additional age estimation can have label adult|child|unkonwn
     # detection results for llms are written in one file-per-image, they have label child|adult
-    gt_path = ("../../data/parenting_slop_dataset/annotations/parenting_slop_dataset.json")
+    gt_path = ("../../data/parenting_slop_dataset/annotations/parenting_slop_dataset.json")#("../../data/cdd/annotations/child_detection_dataset_gt.json")#
     coco_gt = COCO(str(gt_path)) #normalized, only minors labels
 
 
@@ -430,7 +433,7 @@ if __name__ == "__main__":
     ae = ''
 
     engines = [
-            # "llm_Qwen3.5-4B",
+            "llm_Qwen3.5-4B",
             "llm_Qwen3.6-35B-A3B",
             "llm_Qwen3.6-27B",
             #    "llm_gemma-3-4b-it",
@@ -448,13 +451,14 @@ if __name__ == "__main__":
 
         #        "llm_gemma-4-E4B-it_chonly",
         #     "llm_Qwen3.5-4B_chonly",
-        # "llm_Qwen3.6-35B-A3B_chonly"
+        # "llm_Qwen3.6-35B-A3B_chonly",
+        "llm_Qwen3.6-27B_chonly"
                ]
 
 
 
     for engine in engines:
-        for ae in ['',  'mivolo', 'insightface', 'llm_Qwen3.5-4B', 'llm_Qwen3.6-27B', 'llm_Qwen3.6-35B-A3B', 'llm_p3_Qwen3.6-35B-A3B']:
+        for ae in ['']:#,  'mivolo', 'insightface', 'llm_Qwen3.5-4B', 'llm_Qwen3.6-27B', 'llm_Qwen3.6-35B-A3B', 'llm_p3_Qwen3.6-35B-A3B','llm_p5_Qwen3.6-35B-A3B']:
         # for filter_mode in [CatMode.minors_to_minors, CatMode.ignore_cats_take_all]:
 
             if engine.startswith("llm_") and ae!='':

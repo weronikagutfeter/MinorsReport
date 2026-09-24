@@ -103,7 +103,7 @@ def process_files(imagesdir, outputdir, det_engine_name, gt_path=None, suffix = 
 
                 draw_detections(img, data)
                 if (coco_gt is not None):
-                    gt_anns = get_bboxes_for_image(coco_gt, str(srcframe))
+                    gt_anns = get_bboxes_for_image(coco_gt, str(Path(relpath, stem + ".jpg")))
                     for ann in gt_anns:
                         ann['bbox'] = [ann['bbox'][0], ann['bbox'][1], ann['bbox'][0] + ann['bbox'][2],
                                        ann['bbox'][1] + ann['bbox'][3]]
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     outputdir = os.environ.get('OUTPUTDIR', '')
     imagesdir = os.environ.get('IMAGESDIR', '')
 
-    gt_path = None#("../../data/parenting_slop_dataset/annotations/parenting_slop_dataset.json")
+    gt_path = ("../../data/parenting_slop_dataset/annotations/parenting_slop_dataset.json")#("../../data/cdd/annotations/child_detection_dataset_gt.json")#None#("../../data/parenting_slop_dataset/annotations/parenting_slop_dataset.json")
 
 
     # engine = 'llm_gemma-3-4b-it'
@@ -137,9 +137,9 @@ if __name__ == "__main__":
     # engine = 'llm_Qwen3.6-35B-A3B_chonly'
 
     # engine = 'detector_yoloe-26x-seg'
-    # engine = 'detector_yolo26x'
+    engine = 'sandbox_yolo26x'
     # engine = 'detector_yolov3u'
-    engine = 'detector_yolov8x-world'
+    # engine = 'detector_yolov8x-world'
 
 
     SUFFIX = "_fixed.json"
